@@ -1,0 +1,18 @@
+<section class="article-card" [ngClass]="sizeClass">
+  <div class="article-card-header">
+    <h2>{{ article.title }}</h2>
+    <p class="article-meta">By {{ article.author }} · {{ article.publishedAt }}</p>
+  </div>
+
+  <div class="article-card-body">
+    <img *ngIf="article.imageUrl" class="article-image" [src]="article.imageUrl" [alt]="article.title" />
+    <div class="article-copy">
+      <p class="article-summary">{{ article.summary }}</p>
+      <p class="article-content">{{ article.content }}</p>
+      <div class="article-highlights">
+        <span *ngFor="let highlight of article.highlights">• {{ highlight }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+

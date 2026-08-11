@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.main__wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: visible;
+}
+
+app-main-header {
+  flex: 0 0 auto;
+}
+
+main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+/* Parchment texture background and vintage typography */
+.prophet-card {
+  background-color: #f3e5d2;
+  background-image: radial-gradient(rgba(77, 47, 24, 0.05) 15%, transparent 16%),
+                    radial-gradient(rgba(77, 47, 24, 0.05) 15%, transparent 16%);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  color: #2c1e11;
+  font-family: 'EB Garamond', Georgia, serif;
+  border: 3px solid #8f6b3f;
+  padding: 2rem;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+}
+
+/* Moving Photo Frame with the distinctive newspaper look */
+.moving-picture-container {
+  border: 4px solid #51371f;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.moving-picture-container .magical-photo {
+  width: 100%;
+  display: block;
+  filter: sepia(0.82) contrast(1.15) brightness(0.9);
+  transition: filter 0.45s ease;
+}
+
+.moving-picture-container .magical-photo:hover {
+  filter: sepia(0.28) contrast(1.18) brightness(1.02);
+}
+
+/* Headline styling mimicking dynamic block printing */
+.headline {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-align: center;
+  border-bottom: 2px solid #2c1e11;
+}
