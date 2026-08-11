@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # The Daily Prophet
 
 A newspaper-style Angular application that renders themed wizarding-world articles in a vintage print layout.
@@ -71,3 +72,7 @@ This project is styled as a themed newspaper with serif typography, drop caps, a
 - Angular: https://angular.io/
 - Angular CLI: https://angular.dev/cli
 - Vitest: https://vitest.dev/
+=======
+# the-daily-prophet
+Harry Potter Inspired News Paper Website 
+>>>>>>> f6ad6eb996190e49060b6eec3eca957460d31c9d
