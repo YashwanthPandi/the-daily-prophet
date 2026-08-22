@@ -14,4 +14,5 @@ export class MainHeader {
     month: 'long',
     year: 'numeric',
   });
+  issueNumber: number = 1;
 }

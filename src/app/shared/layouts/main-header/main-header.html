@@ -15,19 +15,21 @@
     <h1 class="visually-hidden">The Daily Prophet</h1>
   </div>
 
-  <nav class="meta-bar">
+  <nav class="menu meta-bar">
     <div class="meta-container">
-      <a class="meta-item issue" routerLink="/home" routerLinkActive="active">Home</a>
-      <a class="meta-item date" routerLink="/world-news" routerLinkActive="active">World News</a>
-      <a class="meta-item cost" routerLink="/matters-of-magic" routerLinkActive="active">Matters of Magic</a>
-      <a class="meta-item cost" routerLink="/recipes" routerLinkActive="active">Recipes</a>
+      <a class="meta-item " routerLink="/home" routerLinkActive="active">Home</a>
+      <a class="meta-item " routerLink="/world-news" routerLinkActive="active">World News</a>
+      <a class="meta-item " routerLink="/matters-of-magic" routerLinkActive="active">Matters of Magic</a>
+      <a class="meta-item " routerLink="/recipes" routerLinkActive="active">Recipes</a>
+      <a class="meta-item " routerLink="/login" routerLinkActive="active">Login</a>
+
     </div>
   </nav>
 
   <!-- Magical News Meta Bar Block -->
   <aside class="meta-bar">
     <div class="meta-container">
-      <div class="meta-item issue">Issue #1</div>
+      <div class="meta-item issue">Issue : {{ issueNumber }}</div>
       <div class="meta-item date">{{ currentDate }}</div>
       <div class="meta-item cost">5 Knuts</div>
     </div>
