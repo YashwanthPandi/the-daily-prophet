@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { potions } from './recipes';
 
-import { Archive } from './archive';
-
-describe('Archive', () => {
-  let service: Archive;
+describe('Recipes', () => {
+  let service: potions;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Archive);
+    service = TestBed.inject(potions);
   });
 
   it('should be created', () => {
