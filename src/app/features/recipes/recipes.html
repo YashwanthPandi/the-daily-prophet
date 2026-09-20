@@ -1,32 +1,24 @@
-<main class="cards-container">
-    <div class="dp-card">
-        <!-- Exterior Outline Wrapper -->
-        <div class="dp-exterior-outline">
-            <div class="dp-frame">
-              <!-- Header -->
-              <div class="dp-header">
-                <span class="dp-spell-name">name</span>
-                <span class="dp-spell-cost"> card cost</span>
-              </div>
+<table mat-table [dataSource]="potionsList()" class="mat-elevation-z2">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let potion">{{ potion.name }}</td>
+  </ng-container>
 
-              <!-- Art Section -->
-              <div class="dp-art">
-                <img [src]="'https://placehold.co/400x300/121826/ffd700?text=Engraving'" [alt]="'Engraving'" onerror="this.src=''">
-              </div>
+  <ng-container matColumnDef="effect">
+    <th mat-header-cell *matHeaderCellDef>Effect</th>
+    <td mat-cell *matCellDef="let potion">{{ potion.effect || 'Unknown' }}</td>
+  </ng-container>
 
-              <!-- Body -->
-              <div class="dp-body">
-                <div class="dp-badge">badgeText </div>
-                <p class="dp-desc">description</p>
-                <div class="dp-flavor">flavor text</div>
-              </div>
+  <ng-container matColumnDef="difficulty">
+    <th mat-header-cell *matHeaderCellDef>Difficulty</th>
+    <td mat-cell *matCellDef="let potion">{{ potion.difficulty || 'Unknown' }}</td>
+  </ng-container>
 
-              <!-- Footer -->
-              <div class="dp-footer">
-                <span></span>
-                <span class="dp-rarity"></span>
-              </div>
-            </div>
-        </div>
-    </div>
-</main>
+  <ng-container matColumnDef="ingredients">
+    <th mat-header-cell *matHeaderCellDef>Ingredients</th>
+    <td mat-cell *matCellDef="let potion">{{ potion.ingredients || 'Unknown' }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

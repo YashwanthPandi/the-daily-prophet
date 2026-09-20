@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MainHeader } from "./shared/layouts/main-header/main-header";
-import { Sidebar } from "./shared/layouts/sidebar/sidebar";
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MainHeader,],
+  imports: [RouterOutlet, MainHeader, MatTableModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
