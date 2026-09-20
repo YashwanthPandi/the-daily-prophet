@@ -1,3 +1,32 @@
-<div class="article-grid-core">
-  <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
-</div>
+<main class="cards-container">
+    <div class="dp-card">
+        <!-- Exterior Outline Wrapper -->
+        <div class="dp-exterior-outline">
+            <div class="dp-frame">
+              <!-- Header -->
+              <div class="dp-header">
+                <span class="dp-spell-name">name</span>
+                <span class="dp-spell-cost"> card cost</span>
+              </div>
+
+              <!-- Art Section -->
+              <div class="dp-art">
+                <img [src]="'https://placehold.co/400x300/121826/ffd700?text=Engraving'" [alt]="'Engraving'" onerror="this.src=''">
+              </div>
+
+              <!-- Body -->
+              <div class="dp-body">
+                <div class="dp-badge">badgeText </div>
+                <p class="dp-desc">description</p>
+                <div class="dp-flavor">flavor text</div>
+              </div>
+
+              <!-- Footer -->
+              <div class="dp-footer">
+                <span></span>
+                <span class="dp-rarity"></span>
+              </div>
+            </div>
+        </div>
+    </div>
+</main>

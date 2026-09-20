@@ -1,16 +1,27 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ArticleCard } from '../../shared/components/article-card/article-card';
-import { NewsArticle } from '../../core/models/news';
-import { getArticlesByCategory } from '../../core/services/news.service';
+import { Component, OnInit } from '@angular/core';
+import { Potions } from '../../core/services/recipes';
 
 @Component({
   selector: 'app-recipes',
-  standalone: true,
-  imports: [CommonModule, ArticleCard],
   templateUrl: './recipes.html',
-  styleUrl: './recipes.scss',
+  standalone: true
 })
-export class Recipes {
-  readonly articles: NewsArticle[] = getArticlesByCategory('recipes');
+export class Recipes implements OnInit {
+  potionsList: any[] = [];
+
+  constructor(private potions: Potions) {}
+
+  ngOnInit(): void {
+    debugger
+    this.potions.getAllPotions().subscribe({
+      next: (response: any) => {
+        this.potionsList = response?.data ?? [];
+      },
+      error: (err) => {
+        // API failed; fall through to empty state instead of hanging on loading
+        console.error('Failed to load potions', err);
+        this.potionsList = [];
+      }
+    });
+  }
 }
