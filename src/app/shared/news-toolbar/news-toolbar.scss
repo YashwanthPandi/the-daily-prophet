@@ -1,0 +1,94 @@
+// Sections on the left, search + refresh on the right, wrapping on small
+// screens. :host is the <app-news-toolbar> element itself.
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-family: var(--small-caps);
+  // The header's .meta-bar sets UPPERCASE + letter-spacing on everything
+  // inside it. Inherited styles DO cross component boundaries (only selectors
+  // are scoped), so we reset them here.
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.5rem;
+}
+
+.topics__label {
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.topics__sep {
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+}
+
+// Buttons reset to look like plain printed words
+.topics__btn,
+.actions__refresh {
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 0.1rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    color: var(--accent);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: progress;
+  }
+}
+
+.topics__btn.active {
+  color: var(--accent);
+  text-decoration: underline double;
+  text-underline-offset: 0.25em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 1 26rem;
+}
+
+// Search box = a dotted "fill in the blank" line on the page
+.actions__search {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1rem;
+  padding: 0.2rem 0.1rem;
+  border: 0;
+  border-bottom: 1px dotted var(--ink);
+  background: transparent;
+  color: var(--ink);
+
+  &:focus {
+    outline: none;
+    border-bottom-style: solid;
+  }
+}
+
+.actions__refresh {
+  border: 1px solid var(--ink);
+  padding: 0.15rem 0.7rem;
+  white-space: nowrap;
+}

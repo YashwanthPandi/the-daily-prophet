@@ -1,3 +1,83 @@
-<!-- <div class="article-grid-core">
-  <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
-</div> -->
+<!-- The masthead and section tabs live in the app-wide header
+     (main-header → news-toolbar); this component is the front page below it. -->
+<section class="front">
+  <!-- ── Page states ────────────────────────────────────────────────────
+       @if / @else if / @else picks exactly one block to show. -->
+  @if (loading()) {
+    <p class="status">
+      <span class="status__owl" aria-hidden="true">❦</span>
+      Sending an owl to fetch the latest edition…
+    </p>
+  } @else if (error()) {
+    <p class="status status--error" role="alert">{{ error() }}</p>
+  } @else if (articles().length === 0) {
+    <p class="status">A quiet day in the wizarding world — no stories found.</p>
+  } @else if (filteredArticles().length === 0) {
+    <p class="status">The archives hold no headlines matching “{{ searchText() }}”.</p>
+  } @else {
+    <!-- @let declares a local template variable, so we call frontPage()
+         once here instead of in every line below. -->
+    @let page = frontPage();
+
+    @if (page.lead) {
+      <app-lead-story class="slot" [article]="page.lead" [also]="page.also" />
+    }
+
+    <!-- Row 2: the big split headline + the stacked story with a photo -->
+    @if (page.split || page.stack) {
+      <div class="row">
+        @if (page.split) {
+          <app-vertical-story class="slot" [article]="page.split" tone="slab" />
+        }
+        @if (page.stack) {
+          <app-stack-story class="slot" [article]="page.stack" />
+        }
+      </div>
+    }
+
+    <!-- Row 3: the bottom-to-top "DUMBLEDORE" story + adverts -->
+    <div class="row">
+      @if (page.sidebar) {
+        <app-vertical-story class="slot" [article]="page.sidebar" tone="gothic" />
+      }
+      <app-adverts class="slot" />
+    </div>
+
+    @if (page.briefs.length) {
+      <h3 class="flag"><span>In Other News</span></h3>
+      <!-- Bands → cells → stories. [style.--span] binds a CSS custom
+           property on the element, which the stylesheet reads with
+           var(--span) to decide how many of the 12 columns the cell covers. -->
+      <div class="modules">
+        @for (band of modules(); track band.id) {
+          <div class="band">
+            @for (cell of band.cells; track $index) {
+              <div class="cell" [style.--span]="cell.span">
+                @for (story of cell.stories; track story.article.id) {
+                  <app-module-story [article]="story.article" [kind]="story.kind" />
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ── Footer index, like the prop's "— jobs 5 — health 7 —" ─────────
+         `let i = $index` gives each loop item its position (0, 1, 2…). -->
+    <nav class="index" aria-label="Sections index">
+      @for (topic of topics; track topic.label; let i = $index) {
+        <button
+          type="button"
+          class="index__item"
+          [class.active]="topic === selectedTopic()"
+          [attr.aria-pressed]="topic === selectedTopic()"
+          (click)="openSection(topic)"
+        >
+          <span class="index__label">{{ topic.label }}</span>
+          <span class="index__page">{{ i + 1 }}</span>
+        </button>
+      }
+    </nav>
+  }
+</section>

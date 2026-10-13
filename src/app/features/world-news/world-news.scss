@@ -1,0 +1,203 @@
+// FULL WIDTH: styles.scss lays <main> out as a 5-column grid and, by default,
+// puts routed pages in columns 1–4 (column 5 is reserved for <app-sidebar>,
+// which is commented out in app.html). `grid-column: 1 / -1` means "from
+// the first grid line to the last", so this page spans every column.
+:host {
+  display: block;
+  grid-column: 1 / -1;
+  padding-block: 1rem 1.5rem;
+}
+
+// The front page sits in a ruled box, like the prop's inner border
+.front {
+  border: 2px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.slot {
+  padding: 1.25rem;
+}
+
+// Rows of slots separated by heavy double rules. One column on narrow
+// screens; on wide ones a 2fr / 1fr split with a thin rule between.
+.row {
+  display: grid;
+  border-top: 5px double var(--ink);
+
+  > .slot + .slot {
+    border-top: 1px solid var(--ink);
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: 2fr 1fr;
+
+    > .slot + .slot {
+      border-top: 0;
+      border-left: 1px solid var(--ink);
+    }
+
+    // A row with a single slot (no sidebar story) spans the full width
+    > .slot:only-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+// ── "—— ❦ In Other News ❦ ——" section flag ──────────────────────────────────
+.flag {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.6rem 1.25rem;
+  border-top: 5px double var(--ink);
+  font-family: var(--masthead);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 4px;
+    border-block: 1px solid var(--ink);
+  }
+
+  span::before {
+    content: '❦ ';
+  }
+
+  span::after {
+    content: ' ❦';
+  }
+}
+
+// ── "In Other News": bands of cells, like a broadsheet ──────────────────────
+// Each band is a 12-column grid. Cells stretch to the band's height, so the
+// vertical rules between them run unbroken from top to bottom — the classic
+// newspaper column rule — while the stories inside stay content-sized.
+.modules {
+  padding: 0 1.25rem 0.5rem;
+}
+
+.band {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  border-bottom: 1px solid var(--ink);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.cell {
+  grid-column: span var(--span, 12); // --span is set from the template
+  min-width: 0;
+  padding-inline: 1rem;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  & + & {
+    border-left: 1px solid var(--ink);
+  }
+
+  // Thin rules between the stories stacked in one cell
+  > * + * {
+    border-top: 1px solid var(--rule-light);
+  }
+}
+
+// Narrow screens: cells stack, and the column rules turn horizontal
+@media (max-width: 900px) {
+  .band {
+    grid-template-columns: 1fr;
+  }
+
+  .cell {
+    grid-column: auto;
+    padding-inline: 0;
+
+    & + & {
+      border-left: 0;
+      border-top: 1px solid var(--ink);
+    }
+  }
+}
+
+// ── Footer index: "— HBO Series 2 — Films & Cast 3 — …" ─────────────────────
+.index {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.25rem;
+  padding: 0.6rem 1rem;
+  border-top: 5px double var(--ink);
+}
+
+.index__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+
+  // The em-rule before each entry
+  &::before {
+    content: '';
+    width: 1.5rem;
+    border-top: 3px solid currentColor;
+    align-self: center;
+  }
+
+  &:hover,
+  &.active {
+    color: var(--accent);
+  }
+}
+
+.index__label {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.index__page {
+  font-family: var(--slab);
+  font-size: 1.4rem;
+}
+
+// ── Status messages ─────────────────────────────────────────────────────────
+.status {
+  margin: 0;
+  padding: 4rem 1rem;
+  text-align: center;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+.status__owl {
+  display: inline-block;
+  animation: flutter 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes flutter {
+  to {
+    transform: translateY(-6px) rotate(-12deg);
+  }
+}
+
+.status--error {
+  color: var(--accent);
+}

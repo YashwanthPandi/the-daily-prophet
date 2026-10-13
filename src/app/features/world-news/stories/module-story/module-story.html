@@ -1,0 +1,27 @@
+<article class="story">
+  <!-- `as src` narrows `string | null` to `string` inside the block -->
+  @if (photo(); as src) {
+    <app-news-photo
+      class="story__photo"
+      [src]="src"
+      [caption]="kind() === 'small' ? '' : 'Photograph courtesy of ' + article().source"
+    />
+  }
+
+  <div class="story__text">
+    <h3 class="story__title">
+      <a class="dp-link" [href]="article().link" target="_blank" rel="noopener noreferrer">
+        <app-headline [text]="article().title" />
+      </a>
+    </h3>
+
+    @if (kind() !== 'small' && article().summary) {
+      <!-- [class.dp-dropcap]="…" adds the global drop-cap class only on large stories -->
+      <p class="dp-body story__summary" [class.dp-dropcap]="kind() === 'large'">
+        {{ article().summary }}
+      </p>
+    }
+
+    <app-byline [article]="article()" [compact]="kind() !== 'large'" [showMore]="kind() === 'large'" />
+  </div>
+</article>

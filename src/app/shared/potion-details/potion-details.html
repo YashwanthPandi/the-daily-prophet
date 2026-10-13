@@ -1,0 +1,54 @@
+<section class="page">
+  <a class="back" routerLink="/recipes"><span aria-hidden="true">☜</span> Back to Potions &amp; Recipes</a>
+
+  @if (loading()) {
+    <p class="status">Fetching the recipe from the archive…</p>
+  } @else if (error()) {
+    <p class="status status--error" role="alert">{{ error() }}</p>
+  } @else if (potion(); as p) {
+    <article class="recipe">
+      @if (p.image; as src) {
+        <app-news-photo class="recipe__photo" [src]="src" [contain]="true" [caption]="'An illustration of ' + p.name" />
+      }
+
+      <div class="recipe__text">
+        <p class="recipe__kicker"><span class="dp-inverse">☞ From the Potions Archive</span></p>
+        <h2 class="recipe__name">{{ p.name }}</h2>
+        @if (p.effect) {
+          <p class="recipe__deck">{{ p.effect }}.</p>
+        }
+
+        @if (facts().length) {
+          <!-- <dl> = a "description list": pairs of <dt> (term) and <dd> (value) -->
+          <dl class="facts">
+            @for (fact of facts(); track fact.label) {
+              <div class="facts__row">
+                <dt>{{ fact.label }}</dt>
+                <dd>{{ fact.value }}</dd>
+              </div>
+            }
+          </dl>
+        }
+
+        @if (ingredients().length) {
+          <h3 class="recipe__heading">You Will Need</h3>
+          <ol class="ingredients">
+            @for (item of ingredients(); track $index) {
+              <li>{{ item }}</li>
+            }
+          </ol>
+        } @else {
+          <p class="dp-body recipe__none">
+            The ingredients for this brew are a closely guarded secret, unrecorded in our archive.
+          </p>
+        }
+
+        @if (p.wiki) {
+          <a class="recipe__more" [href]="p.wiki" target="_blank" rel="noopener noreferrer">
+            Read the full entry on the Harry Potter Wiki <span aria-hidden="true">❧</span>
+          </a>
+        }
+      </div>
+    </article>
+  }
+</section>

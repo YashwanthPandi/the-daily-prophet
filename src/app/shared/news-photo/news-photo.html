@@ -1,0 +1,17 @@
+<!-- (error)="..." is an event binding on the <img> itself. alt="" because
+     the headline next to the photo already says what the story is. -->
+@if (!failed()) {
+  <figure>
+    <div class="frame">
+      <img
+        [src]="src()"
+        alt=""
+        referrerpolicy="no-referrer"
+        (error)="failed.set(true)"
+      />
+    </div>
+    @if (caption()) {
+      <figcaption>{{ caption() }}</figcaption>
+    }
+  </figure>
+}

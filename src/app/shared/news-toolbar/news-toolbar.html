@@ -1,0 +1,44 @@
+<!-- ── Topic tabs ─────────────────────────────────────────────────────────
+     @for loops over an array. `track` tells Angular how to identify each
+     item so it can reuse DOM elements instead of rebuilding the list.
+     `$last` is a built-in @for variable: true on the final item, so we skip
+     the ✦ separator after it.
+     (click)="..." is an "event binding": runs the method on click. -->
+<div class="topics" role="group" aria-label="News sections">
+  <span class="topics__label">Sections:</span>
+  @for (topic of store.topics; track topic.label; let last = $last) {
+    <button
+      type="button"
+      class="topics__btn"
+      [class.active]="topic === store.selectedTopic()"
+      [attr.aria-pressed]="topic === store.selectedTopic()"
+      (click)="store.selectTopic(topic)"
+    >
+      {{ topic.label }}
+    </button>
+    @if (!last) {
+      <span class="topics__sep" aria-hidden="true">✦</span>
+    }
+  }
+</div>
+
+<div class="actions">
+  <!-- [value] pushes the signal into the input; (input) pulls typing back out.
+       Together that's a hand-rolled "two-way binding". -->
+  <input
+    class="actions__search"
+    type="search"
+    placeholder="Search the archives…"
+    aria-label="Search headlines"
+    [value]="store.searchText()"
+    (input)="onSearch($event)"
+  />
+  <button
+    type="button"
+    class="actions__refresh"
+    (click)="store.load()"
+    [disabled]="store.loading()"
+  >
+    {{ store.loading() ? 'Summoning…' : 'Fresh Edition' }}
+  </button>
+</div>

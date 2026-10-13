@@ -1,0 +1,39 @@
+<article class="lead">
+  <p class="lead__kicker"><span class="dp-inverse">☞ {{ kicker() }}</span></p>
+
+  <h2 class="lead__title">
+    <a class="dp-link" [href]="article().link" target="_blank" rel="noopener noreferrer">
+      <app-headline [text]="article().title" />
+    </a>
+  </h2>
+
+  <div class="lead__body">
+    <div class="lead__text">
+      @if (article().summary) {
+        <!-- dp-dropcap / dp-body are GLOBAL classes from styles.scss -->
+        <p class="dp-body dp-dropcap">{{ article().summary }}</p>
+      }
+      <app-byline [article]="article()" [showMore]="true" />
+
+      @if (also().length) {
+        <h3 class="lead__also-title">Also in this Edition</h3>
+        <ul class="lead__also">
+          @for (item of also(); track item.id) {
+            <li>
+              <a class="dp-link" [href]="item.link" target="_blank" rel="noopener noreferrer">
+                {{ item.title }}
+              </a>
+              <i> — {{ item.source }}</i>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- `as src` narrows `string | null` to `string` inside the block, so the
+         required [src] input type-checks. -->
+    @if (article().imageUrl; as src) {
+      <app-news-photo [src]="src" [caption]="'Photograph courtesy of ' + article().source" />
+    }
+  </div>
+</article>

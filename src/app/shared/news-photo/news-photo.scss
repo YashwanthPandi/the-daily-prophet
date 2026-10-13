@@ -1,0 +1,104 @@
+// How the "printed" look works:
+//  • filter: grayscale + high contrast = harsh black-and-white newsprint
+//  • mix-blend-mode: multiply = the photo's whites turn into the paper
+//    colour, as if the image were printed in ink onto the page
+//  • ::after lays the shared paper grain and a dark inner edge on top
+//  • a slow zoom/pan animation makes it drift like a moving photograph
+
+:host {
+  display: block;
+}
+
+figure {
+  margin: 0;
+}
+
+// Fill mode: the figure and frame take the full height the parent gives,
+// and the 16:10 aspect ratio is switched off.
+:host(.fill) {
+  height: 100%;
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .frame {
+    flex: 1;
+    min-height: 0; // flex items won't shrink below their content without this
+    aspect-ratio: auto;
+  }
+}
+
+.frame {
+  position: relative;
+  overflow: hidden; // clip the zooming image to the frame
+  aspect-ratio: 16 / 10;
+  border: 2px solid var(--ink);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // fill the box, cropping instead of stretching
+    filter: grayscale(1) contrast(1.45) brightness(0.92);
+    mix-blend-mode: multiply;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--paper-grain);
+    box-shadow: inset 0 0 2rem rgba(20, 12, 4, 0.55);
+    pointer-events: none; // let clicks pass through to the page
+  }
+}
+
+// Contain mode: whole illustration visible, a gentler drift, no dark vignette
+:host(.contain) .frame {
+  aspect-ratio: 4 / 3;
+
+  img {
+    object-fit: contain;
+    padding: 0.5rem;
+    animation-name: bob;
+  }
+
+  &::after {
+    box-shadow: none;
+  }
+}
+
+// Potion bottles bob gently instead of zooming
+@keyframes bob {
+  to {
+    transform: translateY(-4px) rotate(-1.5deg);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.14) translate(-2%, -1.5%);
+  }
+}
+
+figcaption {
+  margin-top: 0.3rem;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame img {
+    animation: none;
+  }
+}

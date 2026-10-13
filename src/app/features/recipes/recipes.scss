@@ -1,7 +1,217 @@
-table {
-  width: 100%;
+// Span every column of the global <main> grid (see world-news.scss for why).
+:host {
+  display: block;
+  grid-column: 1 / -1;
+  padding-block: 1rem 2rem;
 }
 
-.mat-mdc-cell {
-  padding-right: 1rem;
+// The page sits in the same ruled box as the front page
+.page {
+  border: 2px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+  padding: 0 1.25rem 1.25rem;
+}
+
+// ── Section flag: "—— ❦ Potions & Recipes ❦ ——" ─────────────────────────────
+.flag {
+  padding-top: 0.75rem;
+  text-align: center;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    font-family: var(--masthead);
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 4px;
+      border-block: 1px solid var(--ink);
+    }
+
+    span::before {
+      content: '❦ ';
+    }
+
+    span::after {
+      content: ' ❦';
+    }
+  }
+}
+
+.flag__deck {
+  margin: 0.2rem 0 0;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+// ── Toolbar: difficulty filters + search ────────────────────────────────────
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-top: 0.75rem;
+  padding-block: 0.5rem;
+  border-block: 1px solid var(--ink);
+}
+
+.levels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.5rem;
+  font-family: var(--small-caps);
+}
+
+.levels__label {
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.levels__sep {
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+}
+
+.levels__btn {
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 0.1rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+
+  &:hover,
+  &.active {
+    color: var(--accent);
+  }
+
+  &.active {
+    text-decoration: underline double;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.search {
+  flex: 0 1 22rem;
+  min-width: 0;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1rem;
+  padding: 0.2rem 0.1rem;
+  border: 0;
+  border-bottom: 1px dotted var(--ink);
+  background: transparent;
+  color: var(--ink);
+
+  &:focus {
+    outline: none;
+    border-bottom-style: solid;
+  }
+}
+
+// ── Recipe of the Day ───────────────────────────────────────────────────────
+.featured {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-bottom: 5px double var(--ink);
+
+  @media (min-width: 800px) {
+    grid-template-columns: minmax(14rem, 1fr) 2fr;
+  }
+}
+
+.featured__kicker {
+  margin: 0 0 0.4rem;
+}
+
+.featured__name {
+  margin: 0 0 0.75rem;
+  font-family: var(--slab);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.featured__effect {
+  font-size: 1.2rem;
+}
+
+.featured__ingredients {
+  margin: 0.5rem 0 0;
+  font-family: var(--body);
+  font-size: 1.05rem;
+
+  b {
+    font-family: var(--small-caps);
+    font-weight: 400;
+  }
+}
+
+.featured__more {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ── Clippings in newspaper columns ──────────────────────────────────────────
+.count {
+  margin: 0.75rem 0 1.25rem;
+  text-align: center;
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.clippings {
+  columns: auto 16rem;
+  column-gap: 1.75rem;
+  column-rule: 1px solid var(--ink);
+}
+
+// ── Status messages ─────────────────────────────────────────────────────────
+.status {
+  margin: 0;
+  padding: 4rem 1rem;
+  text-align: center;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+.status__cauldron {
+  display: inline-block;
+  animation: bubble 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes bubble {
+  to {
+    transform: translateY(-5px) rotate(8deg);
+  }
+}
+
+.status--error {
+  color: var(--accent);
 }

@@ -1,0 +1,16 @@
+{
+  "/google-news": {
+    "target": "https://news.google.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/google-news": "" },
+    "logLevel": "info"
+  },
+  "/bing-news": {
+    "target": "https://www.bing.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/bing-news": "" },
+    "logLevel": "info"
+  }
+}

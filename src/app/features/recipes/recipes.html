@@ -1,24 +1,80 @@
-<table mat-table [dataSource]="potionsList()" class="mat-elevation-z2">
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let potion">{{ potion.name }}</td>
-  </ng-container>
+<section class="page">
+  <!-- Section flag, like a newspaper's inside-page heading -->
+  <header class="flag">
+    <h2><span>Potions &amp; Recipes</span></h2>
+    <p class="flag__deck">Every brew on record in the potions archive, clipped and kept for the discerning brewer</p>
+  </header>
 
-  <ng-container matColumnDef="effect">
-    <th mat-header-cell *matHeaderCellDef>Effect</th>
-    <td mat-cell *matCellDef="let potion">{{ potion.effect || 'Unknown' }}</td>
-  </ng-container>
+  <div class="toolbar">
+    <div class="levels" role="group" aria-label="Filter by difficulty">
+      <span class="levels__label">Difficulty:</span>
+      @for (lvl of levels; track lvl.label; let last = $last) {
+        <button
+          type="button"
+          class="levels__btn"
+          [class.active]="lvl === level()"
+          [attr.aria-pressed]="lvl === level()"
+          (click)="level.set(lvl)"
+        >
+          {{ lvl.label }}
+        </button>
+        @if (!last) {
+          <span class="levels__sep" aria-hidden="true">✦</span>
+        }
+      }
+    </div>
+    <input
+      class="search"
+      type="search"
+      placeholder="Search by name, effect or ingredient…"
+      aria-label="Search potions"
+      [value]="search()"
+      (input)="onSearch($event)"
+    />
+  </div>
 
-  <ng-container matColumnDef="difficulty">
-    <th mat-header-cell *matHeaderCellDef>Difficulty</th>
-    <td mat-cell *matCellDef="let potion">{{ potion.difficulty || 'Unknown' }}</td>
-  </ng-container>
+  @if (loading()) {
+    <p class="status">
+      <span class="status__cauldron" aria-hidden="true">⚗</span>
+      Stirring the cauldron…
+    </p>
+  } @else if (error()) {
+    <p class="status status--error" role="alert">
+      The potions archive could not be reached. Please try again later.
+    </p>
+  } @else {
+    @if (recipeOfTheDay(); as featured) {
+      <article class="featured">
+        <app-news-photo [src]="featured.image!" [contain]="true" />
+        <div class="featured__text">
+          <p class="featured__kicker"><span class="dp-inverse">☞ Recipe of the Day</span></p>
+          <h3 class="featured__name">
+            <a class="dp-link" [routerLink]="['/recipes', featured.id]">{{ featured.name }}</a>
+          </h3>
+          <p class="dp-body dp-dropcap featured__effect">{{ featured.effect }}.</p>
+          <p class="featured__ingredients"><b>You will need:</b> {{ featured.ingredients }}</p>
+          <a class="featured__more" [routerLink]="['/recipes', featured.id]">
+            The full recipe <span aria-hidden="true">❧</span>
+          </a>
+        </div>
+      </article>
+    }
 
-  <ng-container matColumnDef="ingredients">
-    <th mat-header-cell *matHeaderCellDef>Ingredients</th>
-    <td mat-cell *matCellDef="let potion">{{ potion.ingredients || 'Unknown' }}</td>
-  </ng-container>
+    <p class="count">
+      <span aria-hidden="true">☙</span>
+      {{ filtered().length }} of {{ potions().length }} recipes
+      <span aria-hidden="true">❧</span>
+    </p>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    @if (clippings().length) {
+      <!-- CSS multi-column: clippings flow down column 1, then column 2… -->
+      <div class="clippings">
+        @for (potion of clippings(); track potion.id) {
+          <app-recipe-clipping [potion]="potion" />
+        }
+      </div>
+    } @else if (!recipeOfTheDay()) {
+      <p class="status">No recipe in the archive matches “{{ search() }}”.</p>
+    }
+  }
+</section>

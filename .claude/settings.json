@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s 'https://news.google.com/rss/search?q=%22Harry%20Potter%22&hl=en-US&gl=US&ceid=US:en' -o __TRACKED_VAR__/hp.xml)",
+      "Bash(grep -o '<item>' __TRACKED_VAR__/hp.xml)",
+      "Bash(npx ng *)",
+      "Bash(python3 -)",
+      "Bash(sed -n '/readonly modules/,/^  }\\);/p' src/app/features/world-news/world-news.ts)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --timeout=10000 --log-net-log=/private/tmp/claude-501/-Users-yashwanthpandi-Projects-the-daily-prophet/e37f02c6-3838-43e9-b2c5-525924c4e689/scratchpad/net.json --dump-dom http://localhost:4321/recipes)"
+    ]
+  }
+}

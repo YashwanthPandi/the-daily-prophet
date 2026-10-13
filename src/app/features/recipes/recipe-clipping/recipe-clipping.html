@@ -1,0 +1,38 @@
+<article class="clipping">
+  <span class="clipping__scissors" aria-hidden="true">✂</span>
+
+  @if (potion().image; as src) {
+    <app-news-photo [src]="src" [contain]="true" />
+  }
+
+  <h3 class="clipping__name">
+    <!-- routerLink navigates INSIDE the app (no page reload), unlike href.
+         The array form builds the URL from parts: ['/recipes', '12ab'] → /recipes/12ab -->
+    <a class="dp-link" [routerLink]="['/recipes', potion().id]">{{ potion().name }}</a>
+  </h3>
+
+  @if (potion().effect) {
+    <p class="clipping__effect">{{ potion().effect }}</p>
+  }
+
+  <p class="clipping__meta">
+    <span class="dp-inverse clipping__stamp">{{ potion().difficulty ?? 'Unrated' }}</span>
+    @if (potion().time) {
+      <span class="clipping__time">Brews in {{ potion().time }}</span>
+    }
+  </p>
+
+  @if (ingredients().length) {
+    <p class="clipping__ingredients">
+      <b>Ingredients:</b>
+      <!-- $last lets us skip the separator after the final item -->
+      @for (item of ingredients(); track $index; let last = $last) {
+        {{ item }}@if (!last) {<span aria-hidden="true"> · </span>}
+      }
+    </p>
+  }
+
+  <a class="clipping__more" [routerLink]="['/recipes', potion().id]">
+    Full recipe <span aria-hidden="true">❧</span>
+  </a>
+</article>

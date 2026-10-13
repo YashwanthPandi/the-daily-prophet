@@ -37,20 +37,41 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+// ── Design tokens ───────────────────────────────────────────────────────────
+// CSS custom properties ("variables") defined on :root are visible to every
+// component, including Angular's scoped component styles. Change a colour
+// here and the whole paper changes with it.
 :root {
-  --paper-bg: #f3ead8;
-  --paper-wash: rgba(248, 233, 206, 0.7);
-  --ink: #2a1e13;
-  --ink-soft: #4b3927;
-  --headline: #3d2920;
-  --accent: #b08a2e;
-  --border: #8b6d45;
-  --panel: #fbf3e3;
+  // Kraft-brown prop paper and heavy black printer's ink
+  --paper-bg: #d8c196;
+  --paper-wash: rgba(232, 214, 176, 0.7);
+  --ink: #15100a;
+  --ink-soft: #3b2d1e;
+  --accent: #6b1e14; // dried-blood red used sparingly, for hovers and the active section
+  --border: #15100a;
+  --rule-light: rgba(21, 16, 10, 0.4);
+  --panel: #e3cfa5;
   --shadow: rgba(22, 14, 6, 0.12);
-  --masthead: 'Daily Prophet', 'Impact', 'League Gothic', 'Arial Black', sans-serif;
-  --headline: 'League Gothic', 'Impact', 'Arial Black', sans-serif;
-  --body: 'Caslon', 'Georgia', 'Times New Roman', serif;
-  --display: 'Cinzel', 'Playfair Display', serif;
+
+  // Paper grain: an SVG "fractal noise" filter as a data URI. Custom
+  // properties can hold any value, even url(...), so the page background AND
+  // the newspaper photos (news-photo.scss) share this one texture.
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.22 0 0 0 0 0.1 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  // Typefaces (loaded from Google Fonts in index.html)
+  --masthead: 'UnifrakturMaguntia', 'Old English Text MT', serif;
+  --slab: 'Ultra', 'Rockwell Extra Bold', 'Clarendon', serif;
+  --headline: 'League Gothic', 'Oswald', 'Impact', 'Arial Narrow', sans-serif;
+  --ornate: 'Rye', 'Ultra', serif;
+  --script: 'Pinyon Script', 'Snell Roundhand', cursive;
+  --body: 'IM Fell English', 'Caslon', 'Georgia', serif;
+  --small-caps: 'IM Fell English SC', 'IM Fell English', 'Georgia', serif;
+  --display: var(--small-caps);
+  --serif: var(--body);
+
+  // Names the existing header/sidebar styles already look for
+  --font: var(--small-caps);
+  --black: var(--ink);
 }
 
 html,
@@ -58,9 +79,15 @@ body {
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
+  // Three stacked layers, top to bottom:
+  //  1. a dark vignette so the page edges look sun-browned
+  //  2. the paper grain texture (fibre / speckle)
+  //  3. a warm yellowed base colour
   background:
-    radial-gradient(circle at top left, rgba(255, 247, 229, 0.95), transparent 25%),
-    linear-gradient(180deg, #f9f1e4 0%, #f2e6d0 50%, #e6d5b4 100%);
+    radial-gradient(ellipse at center, transparent 45%, rgba(80, 50, 15, 0.38) 100%),
+    var(--paper-grain),
+    var(--paper-bg);
+  background-attachment: fixed;
   color: var(--ink);
 }
 
@@ -102,7 +129,17 @@ main {
   grid-auto-rows: auto;
   gap: 1.75rem;
   min-height: 100vh;
+  // Pack rows at the top. Without this, the spare height of a short page is
+  // shared out between ALL rows — including the empty row taken by the
+  // <router-outlet> placeholder — leaving a big gap above the content.
+  align-content: start;
   padding: 0 1.75rem 1.75rem;
+}
+
+// <router-outlet> renders nothing itself (the routed page is inserted as
+// its next sibling), so keep it from taking a grid cell at all.
+main > router-outlet {
+  display: none;
 }
 
 main > * {
@@ -153,4 +190,63 @@ app-sidebar {
   .article-content {
     columns: 1;
   }
+}
+
+// ── Shared newspaper typography ─────────────────────────────────────────────
+// GLOBAL utility classes. Component styles are encapsulated (they only reach
+// their own template), but rules in this file reach every component, so
+// any story component can just write class="dp-dropcap". The `dp-` prefix
+// (Daily Prophet) keeps them from clashing with Bootstrap/Material names.
+
+// White-on-black box: "☞ EXCLUSIVE", the competition box, adverts
+.dp-inverse {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper-bg);
+  font-family: var(--slab);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.1em 0.55em;
+}
+
+// Ornamental boxed initial on a paragraph, like the props' big "H", "F", "P"
+.dp-dropcap::first-letter {
+  float: left;
+  font-family: var(--ornate);
+  font-size: 3.3em;
+  line-height: 0.8;
+  padding: 0.14em 0.12em 0.04em;
+  margin: 0.06em 0.16em 0 0;
+  border: 3px double var(--ink);
+}
+
+// Dense, justified body type
+.dp-body {
+  margin: 0 0 0.5rem;
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.38;
+  text-align: justify;
+  hyphens: auto;
+}
+
+// Headline links: printed ink, red on hover
+.dp-link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--accent);
+  }
+}
+
+// Read by screen readers, invisible on screen
+.dp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

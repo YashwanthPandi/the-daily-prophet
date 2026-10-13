@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.lead__kicker {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+// Heavy slab "wood type", like BOY WHO LIVED
+.lead__title {
+  margin: 0 0 1rem;
+  font-family: var(--slab);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5.4vw, 5rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+// Text column beside the photo on wide screens, stacked on narrow ones
+.lead__body {
+  display: grid;
+  gap: 1.25rem;
+
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(16rem, 1fr) 2fr;
+
+    // A lead without a photo: one wide area, text flowing in 2 columns
+    &:not(:has(app-news-photo)) {
+      grid-template-columns: 1fr;
+
+      .lead__text {
+        columns: 2 18rem;
+        column-gap: 2rem;
+        column-rule: 1px solid var(--ink);
+      }
+    }
+  }
+}
+
+.lead__also-title {
+  margin: 1rem 0 0.4rem;
+  padding: 0.2rem 0;
+  border-block: 1px solid var(--ink);
+  font-family: var(--small-caps);
+  font-weight: 400;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+}
+
+.lead__also {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  line-height: 1.3;
+
+  li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  i {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+// Grid map: the headline and text on the left, the vertical source on the right
+.vstory {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'title  source'
+    'text   source';
+  column-gap: 1rem;
+}
+
+.vstory__title {
+  grid-area: title;
+  margin: 0 0 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+
+  // The link is a 2-column grid: [vertical first word][rest of headline]
+  a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.6rem;
+  }
+}
+
+// `writing-mode: vertical-rl` turns text sideways, reading top-to-bottom
+.vstory__first {
+  writing-mode: vertical-rl;
+  padding-block: 0.2em;
+  border-block: 3px solid var(--ink);
+}
+
+// Photo beside the summary on wide screens; stacked on narrow ones
+.vstory__text {
+  grid-area: text;
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+
+  @media (min-width: 900px) {
+    &:has(app-news-photo) {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+}
+
+.vstory__source {
+  grid-area: source;
+  margin: 0;
+  padding-left: 0.4rem;
+  writing-mode: vertical-rl;
+  border-left: 2px solid var(--ink);
+  font-family: var(--slab);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+// ── Tones ───────────────────────────────────────────────────────────────────
+.vstory--slab .vstory__title {
+  font-family: var(--slab);
+  font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+}
+
+.vstory--gothic .vstory__title {
+  font-family: var(--headline);
+  font-size: clamp(2.4rem, 4.5vw, 4.4rem);
+
+  // Rotating 180° flips vertical text to read bottom-to-top, like DUMBLEDORE
+  .vstory__first {
+    transform: rotate(180deg);
+    font-size: 1.2em;
+  }
+}
+
+// Phones: too narrow for sideways words, so print everything normally
+@media (max-width: 700px) {
+  .vstory {
+    display: block;
+  }
+
+  .vstory__title a {
+    display: block;
+  }
+
+  .vstory__first {
+    writing-mode: horizontal-tb;
+    transform: none !important; // undo the gothic rotation
+    border: 0;
+    padding: 0;
+  }
+
+  .vstory__first::after {
+    content: ' ';
+  }
+
+  .vstory__source {
+    display: none;
+  }
+}

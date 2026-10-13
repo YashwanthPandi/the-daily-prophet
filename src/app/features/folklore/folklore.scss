@@ -1,0 +1,30 @@
+// Span every column of the global <main> grid (see world-news.scss for why).
+:host {
+  display: block;
+  grid-column: 1 / -1;
+  padding-block: 3rem;
+}
+
+.notice {
+  max-width: 40rem;
+  margin: 0 auto;
+  text-align: center;
+  border-block: 4px double var(--ink);
+  padding: 1.5rem 1rem;
+}
+
+.notice__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--headline);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.notice__body {
+  margin: 0;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1.15rem;
+}

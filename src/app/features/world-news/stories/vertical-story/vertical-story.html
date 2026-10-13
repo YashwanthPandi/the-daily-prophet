@@ -1,0 +1,25 @@
+<article class="vstory" [class]="'vstory--' + tone()">
+  <h2 class="vstory__title">
+    <a class="dp-link" [href]="article().link" target="_blank" rel="noopener noreferrer">
+      <span class="vstory__first">{{ parts()[0] }}</span>
+      <span class="vstory__rest"><app-headline [text]="parts()[1]" /></span>
+    </a>
+  </h2>
+
+  <div class="vstory__text">
+    @if (article().imageUrl; as src) {
+      <app-news-photo [src]="src" [caption]="'Photograph courtesy of ' + article().source" />
+    }
+    <div>
+      @if (article().summary) {
+        <p class="dp-body dp-dropcap">{{ article().summary }}</p>
+      }
+      <app-byline [article]="article()" [showMore]="true" />
+    </div>
+  </div>
+
+  <!-- Decorative repeat of the byline, so screen readers skip it -->
+  @if (tone() === 'slab' && article().source) {
+    <p class="vstory__source" aria-hidden="true">Reports {{ article().source }}</p>
+  }
+</article>
